@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<!-- By default, only the Clean and Build commands use this build script. -->
+<!-- Commands such as Run, Debug, and Test only use this build script if -->
+<!-- the Compile on Save feature is turned off for the project. -->
+<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
+<!-- in the project's Project Properties dialog box.-->
+<project name="AplikasiPenjualan" default="default" basedir=".">
+    <description>Aplikasi Penjualan dengan Metode Apriori</description>
+    <import file="nbproject/build-impl.xml"/>
+    
+    <!-- Property definitions -->
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="build"/>
+    <property name="dist.dir" value="dist"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="main.class" value="com.aplikasipenjualan.Main"/>
+    
+    <!-- Classpath definition -->
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="*.jar" erroronmissingdir="false"/>
+    </path>
+    
+    <!-- Clean target -->
+    <target name="clean" description="Clean build artifacts">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+    
+    <!-- Init target -->
+    <target name="init">
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${lib.dir}"/>
+    </target>
+    
+    <!-- Compile target -->
+    <target name="compile" depends="init" description="Compile the source">
+        <javac srcdir="${src.dir}" 
+               destdir="${build.dir}"
+               classpathref="classpath"
+               includeantruntime="false"
+               encoding="UTF-8"
+               source="8"
+               target="8">
+            <compilerarg value="-Xlint:unchecked"/>
+        </javac>
+    </target>
+    
+    <!-- JAR target -->
+    <target name="jar" depends="compile" description="Create JAR file">
+        <jar jarfile="${dist.dir}/AplikasiPenjualan.jar" basedir="${build.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="Implementation-Title" value="Aplikasi Penjualan dengan Metode Apriori"/>
+                <attribute name="Implementation-Version" value="1.0"/>
+                <attribute name="Implementation-Vendor" value="Developer"/>
+                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="Built-Date" value="${TODAY}"/>
+            </manifest>
+        </jar>
+    </target>
+    
+    <!-- Run target -->
+    <target name="run" depends="compile" description="Run the application">
+        <java classname="${main.class}" 
+              classpathref="classpath" 
+              classpath="${build.dir}"
+              fork="true">
+            <jvmarg value="-Xmx512m"/>
+        </java>
+    </target>
+    
+    <!-- Build target -->
+    <target name="build" depends="jar" description="Build the complete application"/>
+    
+    <!-- Default target -->
+    <target name="default" depends="build"/>
+    
+    <!-- Documentation target -->
+    <target name="javadoc" description="Generate Javadoc">
+        <mkdir dir="${dist.dir}/javadoc"/>
+        <javadoc sourcepath="${src.dir}"
+                 destdir="${dist.dir}/javadoc"
+                 classpathref="classpath"
+                 packagenames="com.aplikasipenjualan.*"
+                 author="true"
+                 version="true"
+                 use="true"
+                 windowtitle="Aplikasi Penjualan dengan Metode Apriori API"
+                 doctitle="Aplikasi Penjualan dengan Metode Apriori"
+                 encoding="UTF-8"
+                 charset="UTF-8">
+            <bottom><![CDATA[<i>Copyright &#169; 2024 Developer. All Rights Reserved.</i>]]></bottom>
+        </javadoc>
+    </target>
+    
+    <!-- Test target (placeholder for future unit tests) -->
+    <target name="test" depends="compile" description="Run unit tests">
+        <echo message="Unit tests not implemented yet"/>
+    </target>
+    
+    <!-- Distribution target -->
+    <target name="dist" depends="build,javadoc" description="Create distribution">
+        <copy todir="${dist.dir}/lib">
+            <fileset dir="${lib.dir}" includes="*.jar" erroronmissingdir="false"/>
+        </copy>
+        
+        <!-- Create executable JAR with dependencies -->
+        <jar jarfile="${dist.dir}/AplikasiPenjualan-standalone.jar">
+            <fileset dir="${build.dir}"/>
+            <zipgroupfileset dir="${lib.dir}" includes="*.jar" erroronmissingdir="false"/>
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="Implementation-Title" value="Aplikasi Penjualan dengan Metode Apriori"/>
+                <attribute name="Implementation-Version" value="1.0"/>
+                <attribute name="Implementation-Vendor" value="Developer"/>
+            </manifest>
+        </jar>
+        
+        <!-- Create README for distribution -->
+        <echo file="${dist.dir}/README.txt">Aplikasi Penjualan dengan Metode Apriori v1.0
+
+Cara menjalankan:
+1. Pastikan Java 8 atau lebih tinggi terinstall
+2. Jalankan: java -jar AplikasiPenjualan-standalone.jar
+
+Atau gunakan file JAR biasa:
+java -cp AplikasiPenjualan.jar com.aplikasipenjualan.Main
+
+Fitur:
+- Input data penjualan
+- Analisis pola pembelian dengan algoritma Apriori
+- Visualisasi aturan asosiasi
+- Export hasil analisis
+
+Untuk dokumentasi lengkap, lihat folder javadoc/
+        </echo>
+    </target>
+</project>
