@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Main-Class: com.aplikasipenjualan.Main
+Implementation-Title: Aplikasi Penjualan dengan Metode Apriori
+Implementation-Version: 1.0
+Implementation-Vendor: Developer
+Implementation-URL: https://github.com/developer/aplikasi-penjualan-apriori
+Built-By: NetBeans IDE
+Created-By: Apache Ant
+Specification-Title: Aplikasi Penjualan dengan Metode Apriori
+Specification-Version: 1.0
+Specification-Vendor: Developer
+Class-Path:
